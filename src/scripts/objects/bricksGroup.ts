@@ -2,7 +2,7 @@ import Brick from "./brick";
 
 const config = require("../../config/config.json");
 
-export default class BricksGroup extends Phaser.GameObjects. Group {
+export default class BricksGroup extends Phaser.GameObjects.Group {
   scene: Phaser.Scene;
 
   constructor(scene) {
