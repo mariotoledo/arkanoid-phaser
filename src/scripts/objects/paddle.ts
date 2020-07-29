@@ -12,6 +12,11 @@ export default class Paddle extends Phaser.Physics.Arcade.Sprite {
     this.setImmovable(true);
     this.setBounce(1);
     this.setCollideWorldBounds(true);
+
+    this.setInteractive({ draggable: true })
+    .on('drag', (pointer, dragX, dragY) => {
+        this.x = dragX
+    })
   }
 
   public update() {
