@@ -1,27 +1,26 @@
-import PhaserLogo from '../objects/phaserLogo'
-import FpsText from '../objects/fpsText'
+import Paddle from '../objects/paddle'
+import PointsText from '../objects/pointsText'
+const config = require('../../config/config.json');
 
 export default class MainScene extends Phaser.Scene {
-  fpsText: Phaser.GameObjects.Text
+  pointsText: Phaser.GameObjects.Text
+  paddle: Phaser.Physics.Arcade.Sprite
 
   constructor() {
     super({ key: 'MainScene' })
   }
 
   create() {
-    new PhaserLogo(this, this.cameras.main.width / 2, 0)
-    this.fpsText = new FpsText(this)
-
-    // display the Phaser.VERSION
-    this.add
-      .text(this.cameras.main.width - 15, 15, `Phaser v${Phaser.VERSION}`, {
-        color: '#000000',
-        fontSize: 24
-      })
-      .setOrigin(1, 0)
+    this.paddle = new Paddle(
+      this, 
+      this.cameras.main.centerX, 
+      this.cameras.main.height + config.paddle.offset.y
+    );
+    this.pointsText = new PointsText(this)
   }
 
   update() {
-    this.fpsText.update()
+    this.pointsText.update()
+    this.paddle.update()
   }
 }
