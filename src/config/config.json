@@ -1,4 +1,8 @@
 {
+    "game": {
+        "width": 800,
+        "height": 600
+    },
     "pointsText": {
         "style": {
             "color": "white",
@@ -15,5 +19,10 @@
         "offset": {
             "y": -100
         }
+    },
+    "bricks": {
+        "relativeWidth": 1,
+        "relativeHeight": 0.3,
+        "offsetY": 100
     }
 }

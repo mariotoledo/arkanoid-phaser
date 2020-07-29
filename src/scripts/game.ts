@@ -2,18 +2,17 @@ import 'phaser'
 import MainScene from './scenes/mainScene'
 import PreloadScene from './scenes/preloadScene'
 
-const DEFAULT_WIDTH = 1280
-const DEFAULT_HEIGHT = 720
+const config = require('../config/config.json');
 
-const config: Phaser.Types.Core.GameConfig = {
+const gameConfig: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
   backgroundColor: '#000000',
   scale: {
     parent: 'phaser-game',
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
-    width: DEFAULT_WIDTH,
-    height: DEFAULT_HEIGHT
+    width: config.game.width,
+    height: config.game.height
   },
   scene: [PreloadScene, MainScene],
   physics: {
@@ -26,5 +25,5 @@ const config: Phaser.Types.Core.GameConfig = {
 }
 
 window.addEventListener('load', () => {
-  const game = new Phaser.Game(config)
+  const game = new Phaser.Game(gameConfig)
 })
