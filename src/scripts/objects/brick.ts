@@ -3,7 +3,7 @@ import UnmovableSprite from './unmovableSprite';
 export default class Brick extends UnmovableSprite {
   lives: number;
 
-  constructor(scene: Phaser.Scene, x: number, y: number, lives: number, assetName, width, height) {
+  constructor(scene: Phaser.Scene, x: number, y: number, lives: number, assetName, width) {
     super(scene, x, y, assetName);
 
     this.setOrigin(0, 0);
@@ -11,7 +11,7 @@ export default class Brick extends UnmovableSprite {
     this.lives = lives;
 
     this.displayWidth = width;
-    this.displayHeight = height;
+    this.displayHeight = (this.displayWidth * this.height) / this.width;
   }
 
   public update() {}

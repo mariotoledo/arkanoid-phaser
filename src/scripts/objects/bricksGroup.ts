@@ -29,7 +29,6 @@ export default class BricksGroup extends Phaser.GameObjects.Group {
           brickConfig,
           "brick" + brickConfig,
           brickWidth,
-          brickHeight
         );
 
         this.add(brick);

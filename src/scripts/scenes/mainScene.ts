@@ -23,7 +23,9 @@ export default class MainScene extends Phaser.Scene {
       this.cameras.main.height + config.paddle.offset.y
     );
     this.ball = new Ball(this, this.cameras.main.centerX, this.paddle.y - 100);
+
     this.pointsText = new PointsText(this);
+
     this.bricksGroup = new BricksGroup(this);
     this.bricksGroup.buildFromStageConfig(stagesConfig[0]);
 

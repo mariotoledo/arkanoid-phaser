@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Arkanoid/Breakout game made using Phaser 3 + Typescript",
   "main": "index.js",
-   "scripts": {
+  "scripts": {
     "start": "webpack-dev-server --config webpack/webpack.dev.js",
     "build": "webpack --config webpack/webpack.prod.js",
     "bundle": "npm run build",

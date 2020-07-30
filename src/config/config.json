@@ -21,7 +21,7 @@
         }
     },
     "bricks": {
-        "relativeWidth": 1,
+        "relativeWidth": 0.7,
         "relativeHeight": 0.3,
         "offsetY": 100
     }
