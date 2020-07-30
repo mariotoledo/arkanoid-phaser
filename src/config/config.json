@@ -36,6 +36,16 @@
             "y": 0
         }
     },
+    "pressStartText": {
+        "style": {
+            "color": "white",
+            "fontSize": "28px"
+        },
+        "origin": {
+            "x": 0.5,
+            "y": 0.5
+        }
+    },
     "paddle": {
         "anchor": 0.5,
         "offset": {

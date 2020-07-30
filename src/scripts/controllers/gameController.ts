@@ -49,14 +49,14 @@ export default class GameController {
 
     update() {
         if(this.hasLostBall()) {
-            if(this.lives === 0) {
+            this.lives--;
+            this.livesText.setLives(this.lives);
+            
+            if(this.lives == 0) {
                 //game over
             } else {
                 this.ball.reset();   
             }
-
-            this.lives--;
-            this.livesText.setLives(this.lives);
         } 
     }
 
