@@ -22,7 +22,12 @@ export default class MainScene extends Phaser.Scene {
       this.cameras.main.centerX,
       this.cameras.main.height + config.paddle.offset.y
     );
-    this.ball = new Ball(this, this.cameras.main.centerX, this.paddle.y - 100);
+
+    this.ball = new Ball(
+      this, 
+      this.cameras.main.centerX, 
+      this.paddle.y - this.paddle.height
+    );
 
     this.pointsText = new PointsText(this);
 

@@ -2,7 +2,7 @@ import Brick from "./brick";
 
 const config = require("../../config/config.json");
 
-export default class BricksGroup extends Phaser.GameObjects.Group {
+export default class BricksGroup extends Phaser.GameObjects.Container {
   scene: Phaser.Scene;
 
   constructor(scene) {
@@ -35,6 +35,10 @@ export default class BricksGroup extends Phaser.GameObjects.Group {
       });
     });
 
-    this.incY(config.bricks.offsetY);
+    this.scene.add.existing(this);
+    this.setPosition(
+      (config.game.width - this.getBounds().width) / 2,
+      config.bricks.offsetY
+    )
   }
 }
