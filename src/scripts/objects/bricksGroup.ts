@@ -4,10 +4,12 @@ const config = require("../../config/config.json");
 
 export default class BricksGroup extends Phaser.GameObjects.Container {
   scene: Phaser.Scene;
+  group: Phaser.GameObjects.Group;
 
   constructor(scene) {
     super(scene)
     this.scene = scene;
+    this.group = this.scene.add.group();
   }
 
   public buildFromStageConfig(stageConfig) {
@@ -31,11 +33,13 @@ export default class BricksGroup extends Phaser.GameObjects.Container {
           brickWidth,
         );
 
+        this.group.add(brick);
         this.add(brick);
       });
     });
 
     this.scene.add.existing(this);
+    
     this.setPosition(
       (config.game.width - this.getBounds().width) / 2,
       config.bricks.offsetY

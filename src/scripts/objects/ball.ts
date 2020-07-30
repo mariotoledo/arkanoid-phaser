@@ -1,4 +1,3 @@
-
 export default class Ball extends Phaser.Physics.Arcade.Sprite {
     group: Phaser.Physics.Arcade.Group;
 
@@ -7,7 +6,7 @@ export default class Ball extends Phaser.Physics.Arcade.Sprite {
     scene.add.existing(this);
     scene.physics.add.existing(this);
     this.setBounce(1);
-    this.setCollideWorldBounds(true);
+    this.setCollideWorldBounds(true);    
   }
 
   public update() {}

@@ -3,14 +3,16 @@ import PointsText from "../objects/pointsText";
 import BricksGroup from "../objects/bricksGroup";
 import Ball from "../objects/ball";
 
+import GameController from "../controllers/gameController"
+
 const config = require("../../config/config.json");
-const stagesConfig = require("../../config/stages.json");
 
 export default class MainScene extends Phaser.Scene {
   pointsText: Phaser.GameObjects.Text;
-  paddle: Phaser.Physics.Arcade.Sprite;
+  paddle: Paddle;
   bricksGroup: BricksGroup;
   ball: Ball;
+  gameController:GameController;
 
   constructor() {
     super({ key: "MainScene" });
@@ -23,29 +25,23 @@ export default class MainScene extends Phaser.Scene {
       this.cameras.main.height + config.paddle.offset.y
     );
 
-    this.ball = new Ball(
-      this, 
-      this.cameras.main.centerX, 
-      this.paddle.y - this.paddle.height
-    );
-
     this.pointsText = new PointsText(this);
 
     this.bricksGroup = new BricksGroup(this);
-    this.bricksGroup.buildFromStageConfig(stagesConfig[0]);
 
-    this.physics.add.collider(this.paddle, this.ball, () => {
-      let diff = 0;
-      if (this.ball.x < this.paddle.x) {
-        diff = this.paddle.x - this.ball.x;
-        this.ball.body.velocity.x = -10 * diff;
-      } else if (this.ball.x > this.paddle.x) {
-        diff = this.ball.x - this.paddle.x;
-        this.ball.body.velocity.x = 10 * diff;
-      } else {
-        this.ball.body.velocity.x = 2 + Math.random() * 8;
-      }
-    });
+    this.ball = new Ball(
+      this,
+      this.cameras.main.centerX, 
+      this.paddle.y - this.paddle.height,
+    );
+
+    this.gameController = new GameController(
+      this,
+      this.paddle,
+      this.ball,
+      this.bricksGroup
+    )
+    this.gameController.initGame();
   }
 
   update() {
