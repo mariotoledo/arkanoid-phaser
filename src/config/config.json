@@ -1,18 +1,40 @@
 {
     "game": {
         "width": 800,
-        "height": 600
+        "height": 600,
+        "lives": 3,
+        "pointsPerBrick": 10
+    },
+    "ball": {
+        "velocity": {
+            "x": -75,
+            "y": -500
+        }
     },
     "pointsText": {
         "style": {
             "color": "white",
-            "fontSize": "28px"
+            "fontSize": "20px"
         },
         "position": {
             "x": 10,
             "y": 10
         },
         "origin": 0
+    },
+    "livesText": {
+        "style": {
+            "color": "white",
+            "fontSize": "28px"
+        },
+        "position": {
+            "x": 790,
+            "y": 10
+        },
+        "origin": {
+            "x": 1,
+            "y": 0
+        }
     },
     "paddle": {
         "anchor": 0.5,

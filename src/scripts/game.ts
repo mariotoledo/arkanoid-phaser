@@ -19,7 +19,13 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
     default: 'arcade',
     arcade: {
       debug: false,
-      gravity: { y: 0 }
+      gravity: { y: 0 },
+      checkCollision: {
+        up: true,
+        right: true,
+        left: true,
+        down: false
+      }
     }
   }
 }

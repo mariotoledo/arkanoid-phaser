@@ -10,7 +10,7 @@ export default class PointsText extends Phaser.GameObjects.Text {
     this.setOrigin(config.origin)
   }
 
-  public addPoints(points:number) {
+  public setPoints(points:number) {
     this.points += points;
   }
 

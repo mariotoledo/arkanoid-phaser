@@ -1,5 +1,6 @@
 import Paddle from "../objects/paddle";
 import PointsText from "../objects/pointsText";
+import LivesText from "../objects/livesText";
 import BricksGroup from "../objects/bricksGroup";
 import Ball from "../objects/ball";
 
@@ -8,7 +9,8 @@ import GameController from "../controllers/gameController"
 const config = require("../../config/config.json");
 
 export default class MainScene extends Phaser.Scene {
-  pointsText: Phaser.GameObjects.Text;
+  pointsText: PointsText;
+  livesText: LivesText;
   paddle: Paddle;
   bricksGroup: BricksGroup;
   ball: Ball;
@@ -27,6 +29,8 @@ export default class MainScene extends Phaser.Scene {
 
     this.pointsText = new PointsText(this);
 
+    this.livesText = new LivesText(this);
+
     this.bricksGroup = new BricksGroup(this);
 
     this.ball = new Ball(
@@ -39,13 +43,17 @@ export default class MainScene extends Phaser.Scene {
       this,
       this.paddle,
       this.ball,
-      this.bricksGroup
+      this.bricksGroup,
+      this.pointsText,
+      this.livesText
     )
     this.gameController.initGame();
   }
 
   update() {
     this.pointsText.update();
+    this.livesText.update();
     this.paddle.update();
+    this.gameController.update();
   }
 }
