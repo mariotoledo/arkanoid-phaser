@@ -47,9 +47,13 @@ export default class GameController {
         });
     }
 
+    destroyObject(obj) {
+        obj.destroy();
+    }
+
     createBallBrickCollision(ball) {
         this.scene.physics.add.collider(ball, this.brickGroup.group, (_ball, brick) => {
-            brick.destroy()
+            brick.emit('hit', brick);
         });
     }
 }

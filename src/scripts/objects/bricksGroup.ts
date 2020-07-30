@@ -14,8 +14,7 @@ export default class BricksGroup extends Phaser.GameObjects.Container {
 
   public buildFromStageConfig(stageConfig) {
     //defines the area that the bricks will occupy on screen
-    const bricksRelativeHeight =
-      config.game.height * config.bricks.relativeHeight;
+    const bricksRelativeHeight = config.game.height * config.bricks.relativeHeight;
     const bricksRelativeWidth = config.game.width * config.bricks.relativeWidth;
 
     const brickHeight = bricksRelativeHeight / stageConfig.bricks.length;
