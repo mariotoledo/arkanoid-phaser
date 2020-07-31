@@ -5,6 +5,8 @@ An example of Arkanoid/Breakout game made using Phaser 3 and Typescript with Nod
   - Power Ups when bricks are destroyed
   - Strategy Pattern for stage config
 
+[>> Play the game by clicking here <<](https://mariotoledo.github.io/arkanoid-phaser/)
+
 ### Instalation
 You must have [Node.js](https://nodejs.org/) instaled on your After cloning this project, run the following command on the terminal:
 
