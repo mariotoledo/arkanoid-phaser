@@ -1,6 +1,8 @@
 import 'phaser'
 import MainScene from './scenes/mainScene'
 import PressStartScene from './scenes/pressStartScene'
+import GameOverScene from './scenes/gameOverScene'
+import WonScene from './scenes/wonScene'
 import PreloadScene from './scenes/preloadScene'
 
 const config = require('../config/config.json');
@@ -15,7 +17,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
     width: config.game.width,
     height: config.game.height
   },
-  scene: [PreloadScene, MainScene, PressStartScene],
+  scene: [PreloadScene, MainScene, PressStartScene, GameOverScene, WonScene],
   physics: {
     default: 'arcade',
     arcade: {

@@ -53,15 +53,23 @@ export default class GameController {
             this.livesText.setLives(this.lives);
             
             if(this.lives == 0) {
-                //game over
+                this.scene.scene.start('GameOverScene');
             } else {
                 this.ball.reset();   
             }
-        } 
+        }
+
+        if(this.hasNoMoreBricks()) {
+            this.scene.scene.start('WonScene');
+        }
     }
 
     hasLostBall() {
         return this.ball.body.y > this.scene.physics.world.bounds.height;
+    }
+
+    hasNoMoreBricks() {
+        return this.brickGroup.getAll().length == 0;
     }
 
     createBallPaddleCollision(ball) {
