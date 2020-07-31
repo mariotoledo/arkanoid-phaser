@@ -10,5 +10,11 @@ export default class Paddle extends UnmovableSprite {
     })
   }
 
-  public update() {}
+  public enableShooting() {
+    this.setTexture("paddle_gun");
+  }
+
+  public disableShooting() {
+    this.setTexture("paddle");;
+  }
 }

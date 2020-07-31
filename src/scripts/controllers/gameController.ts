@@ -8,6 +8,7 @@ import PowerUpType from '../objects/powerUpType';
 
 import StageStrategyInterface from '../strategies/stageStrategyInterface';
 import StateStrategyInstanceLoader from '../strategies/stageStrategyInstanceLoader';
+import Bullet from '../objects/bullet';
 
 const stagesConfig = require("../../config/stages.json");
 
@@ -21,9 +22,12 @@ export default class GameController {
     pointsText:PointsText;
     livesText:LivesText;
     balls:Array<Ball>;
+    bullets:Array<Bullet>;
 
     points:number;
     lives:number;
+
+    shootingEnabled:boolean;
 
     stageStrategy: StageStrategyInterface;
 
@@ -44,6 +48,11 @@ export default class GameController {
         this.createBallPaddleCollision(ball)
         this.createBallBrickCollision(ball)
         this.balls = [ball];
+
+        this.createBulletInput();
+        this.shootingEnabled = false;
+
+        this.bullets = [];
         
         const strategyLoader = new StateStrategyInstanceLoader();
 
@@ -84,6 +93,12 @@ export default class GameController {
         if(this.hasNoMoreBricks()) {
             this.scene.scene.start('WonScene');
         }
+
+        this.bullets.forEach((bullet, index) => {
+            if(bullet.y < bullet.height) {
+                bullet.destroy();
+            }
+        })
     }
 
     hasLostAllBalls() {
@@ -117,10 +132,25 @@ export default class GameController {
                         context.balls[0].initialX, 
                         context.balls[0].initialY
                     );
+
                     context.balls.push(newBall);
                     context.createBallPaddleCollision(newBall);
                     context.createBallBrickCollision(newBall);
+
                     newBall.reset();
+
+                    break;
+                case PowerUpType.Shooting:
+                    context.paddle.enableShooting();
+                    context.shootingEnabled = true;
+
+                    context.scene.time.addEvent({
+                        delay: config.powerups.shootingDisableTimeMs,
+                        callback: () => {
+                            context.paddle.disableShooting();
+                            context.shootingEnabled = false;
+                        }
+                    });
             }
             powerUp.destroy();
         });
@@ -142,15 +172,49 @@ export default class GameController {
         });
     }
 
+    createBulletInput() {
+        this.scene.input.on('pointerdown', () => {
+            if(this.shootingEnabled == true)  {
+                const leftBullet = new Bullet(
+                    this.scene, 
+                    this.paddle.x - this.paddle.width / 2, 
+                    this.paddle.y
+                );
+                const rightBullet = new Bullet(
+                    this.scene, 
+                    this.paddle.x + this.paddle.width / 2, 
+                    this.paddle.y
+                );
+
+                this.createBulletBrickCollision(leftBullet);
+                this.createBulletBrickCollision(rightBullet);
+                
+                this.bullets.push(leftBullet);
+                this.bullets.push(rightBullet);
+            }            
+        });
+    }
+
     destroyObject(obj) {
         obj.destroy();
     }
 
     createBallBrickCollision(ball) {
         this.scene.physics.add.collider(ball, this.brickGroup.group, (_ball, brick) => {
-            brick.emit('hit', brick);
-            this.points += config.game.pointsPerBrick;
-            this.pointsText.setPoints(this.points)
+            this.destroyBrick(brick);
         });
+    }
+
+    createBulletBrickCollision(bullet) {
+        this.scene.physics.add.collider(bullet, this.brickGroup.group, (bullet, brick) => {
+            this.destroyBrick(brick);
+            bullet.destroy();
+        });
+    }
+
+    destroyBrick(brick) {
+        brick.emit('hit', brick);
+        this.points += config.game.pointsPerBrick;
+        this.pointsText.setPoints(this.points)
     }
 }

@@ -86,6 +86,10 @@
             "0": "0xFF0000",
             "1": "0x00FF00",
             "2": "0x0000FF"
-        }
+        },
+        "shootingDisableTimeMs": 3000
+    },
+    "bullets": {
+        "velocity": -300
     }
 }
