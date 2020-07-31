@@ -3,6 +3,7 @@ import Ball from '../objects/ball'
 import BricksGroup from '../objects/bricksGroup'
 import PointsText from '../objects/pointsText';
 import LivesText from '../objects/livesText';
+import PowerUp from '../objects/powerUp';
 
 import StageStrategyInterface from '../strategies/stageStrategyInterface';
 import StateStrategyInstanceLoader from '../strategies/stageStrategyInstanceLoader';
@@ -48,6 +49,7 @@ export default class GameController {
         const stageConfig = stagesConfig[0];
         this.stageStrategy = strategyLoader.getInstance(stageConfig.strategyType);
         this.brickGroup.buildFromStrategyData(this.stageStrategy.generateStageData(stageConfig.strategyConfig));
+        this.brickGroup.setPowerUpCallback(this.createPowerUp, this);
 
         this.points = 0;
         this.lives = config.game.lives;
@@ -80,6 +82,19 @@ export default class GameController {
 
     hasNoMoreBricks() {
         return this.brickGroup.getAll().length == 0;
+    }
+
+    createPowerUp(x, y, powerUpType, context) {
+        const powerUp = new PowerUp(
+            this.scene, 
+            powerUpType, 
+            x,
+            y
+        )
+
+        this.scene.physics.add.collider(context.paddle, powerUp, () => {
+            powerUp.destroy();
+        });
     }
 
     createBallPaddleCollision(ball) {

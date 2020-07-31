@@ -44,4 +44,11 @@ export default class BricksGroup extends Phaser.GameObjects.Container {
       config.bricks.offsetY
     )
   }
+
+  public setPowerUpCallback(powerUpCallback, context) {
+    this.getAll().forEach(brick => {
+      (<Brick> brick).powerUpCallback = powerUpCallback;
+      (<Brick> brick).powerUpCallbackContext = context;
+    })
+  }
 }

@@ -1,7 +1,10 @@
 import UnmovableSprite from './unmovableSprite';
+const config = require('../../config/config.json');
 
 export default class Brick extends UnmovableSprite {
   lives: number;
+  powerUpCallback: (x:number, y:number, powerUpType: number, context: any) => void;
+  powerUpCallbackContext: any;
 
   constructor(scene: Phaser.Scene, x: number, y: number, lives: number, assetName, width:number) {
     super(scene, x, y, assetName);
@@ -23,7 +26,23 @@ export default class Brick extends UnmovableSprite {
       brick.lives--;
       brick.updateAsset();
     } else {
+      this.dropPowerUp();
       brick.destroy();
+    }
+  }
+
+  dropPowerUp() {
+    const dropChance = Math.random();
+
+    if(dropChance <= config.powerups.dropChance) {
+      const powerUpType = Math.floor(Math.random() * 3);
+      if(this.powerUpCallback)
+        this.powerUpCallback(
+          this.getCenter().x + this.parentContainer.x, 
+          this.getCenter().y + this.parentContainer.y, 
+          powerUpType,
+          this.powerUpCallbackContext
+        );
     }
   }
 

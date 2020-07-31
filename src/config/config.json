@@ -76,5 +76,16 @@
         "relativeWidth": 0.7,
         "relativeHeight": 0.3,
         "offsetY": 100
+    },
+    "powerups": {
+        "dropChance": 1,
+        "width": 32,
+        "height": 32,
+        "velocity": 150,
+        "colors": {
+            "0": "0xFF0000",
+            "1": "0x00FF00",
+            "2": "0x0000FF"
+        }
     }
 }
