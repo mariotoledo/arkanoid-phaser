@@ -4,6 +4,7 @@ import BricksGroup from '../objects/bricksGroup'
 import PointsText from '../objects/pointsText';
 import LivesText from '../objects/livesText';
 import PowerUp from '../objects/powerUp';
+import PowerUpType from '../objects/powerUpType';
 
 import StageStrategyInterface from '../strategies/stageStrategyInterface';
 import StateStrategyInstanceLoader from '../strategies/stageStrategyInstanceLoader';
@@ -13,12 +14,13 @@ const stagesConfig = require("../../config/stages.json");
 const config = require('../../config/config.json');
 
 export default class GameController {
+    [x: string]: any;
     scene: Phaser.Scene;
     paddle:Paddle;
-    ball:Ball;
     brickGroup:BricksGroup;
     pointsText:PointsText;
     livesText:LivesText;
+    balls:Array<Ball>;
 
     points:number;
     lives:number;
@@ -35,17 +37,17 @@ export default class GameController {
     {
         this.scene = scene;
         this.paddle = paddle;
-        this.ball = ball;
         this.brickGroup = brickGroup;
         this.pointsText = pointsText;
         this.livesText = livesText;
 
-        this.createBallPaddleCollision(this.ball)
-        this.createBallBrickCollision(this.ball)
+        this.createBallPaddleCollision(ball)
+        this.createBallBrickCollision(ball)
+        this.balls = [ball];
         
         const strategyLoader = new StateStrategyInstanceLoader();
 
-        //fetching the only stage in game, but we could iterage on array to make more stages available
+        //fetching the only stage in game, but we could iterate on array to make more stages available
         const stageConfig = stagesConfig[0];
         this.stageStrategy = strategyLoader.getInstance(stageConfig.strategyType);
         this.brickGroup.buildFromStrategyData(this.stageStrategy.generateStageData(stageConfig.strategyConfig));
@@ -56,18 +58,26 @@ export default class GameController {
     }
 
     initGame() {
-        this.ball.reset();
+        this.balls[0].reset();
     }
 
     update() {
-        if(this.hasLostBall()) {
+        if(this.hasLostAllBalls()) {
             this.lives--;
             this.livesText.setLives(this.lives);
             
             if(this.lives == 0) {
                 this.scene.scene.start('GameOverScene');
             } else {
-                this.ball.reset();   
+                //removes and destroys all extra balls, keeps only first ball and reset
+                if(this.balls.length > 1) {
+                    const toRemoveBalls = this.balls.slice(1, this.balls.length);
+                    toRemoveBalls.forEach(toRemoveBall => {
+                        toRemoveBall.destroy();
+                    })
+                }
+                this.balls = [this.balls[0]]
+                this.balls[0].reset();
             }
         }
 
@@ -76,8 +86,15 @@ export default class GameController {
         }
     }
 
-    hasLostBall() {
-        return this.ball.body.y > this.scene.physics.world.bounds.height;
+    hasLostAllBalls() {
+        let hasBallInGame = false;
+
+        this.balls.forEach(ball => {
+            if(ball.body.y < this.scene.physics.world.bounds.height) {
+                hasBallInGame = true;
+            }
+        })
+        return hasBallInGame == false;
     }
 
     hasNoMoreBricks() {
@@ -93,6 +110,18 @@ export default class GameController {
         )
 
         this.scene.physics.add.collider(context.paddle, powerUp, () => {
+            switch(powerUp.powerUpType) {
+                case PowerUpType.ExtraBall:
+                    const newBall = new Ball(
+                        context.scene, 
+                        context.balls[0].initialX, 
+                        context.balls[0].initialY
+                    );
+                    context.balls.push(newBall);
+                    context.createBallPaddleCollision(newBall);
+                    context.createBallBrickCollision(newBall);
+                    newBall.reset();
+            }
             powerUp.destroy();
         });
     }
