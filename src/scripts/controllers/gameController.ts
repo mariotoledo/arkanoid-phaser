@@ -178,12 +178,12 @@ export default class GameController {
             
             if (ball.x < this.paddle.x) {
                 diff = this.paddle.x - ball.x;
-                ball.body.velocity.x = -10 * diff;
+                ball.body.velocity.x = -(config.ball.minVelocity + config.ball.maxVelocity) * diff;
             } else if (ball.x > this.paddle.x) {
                 diff = ball.x - this.paddle.x;
-                ball.body.velocity.x = 10 * diff;
+                ball.body.velocity.x = (config.ball.minVelocity + config.ball.maxVelocity) * diff;
             } else {
-                ball.body.velocity.x = 2 + Math.random() * 8;
+                ball.body.velocity.x = config.ball.minVelocity + Math.random() * config.ball.maxVelocity;
             }
         });
     }
