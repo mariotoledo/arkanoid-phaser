@@ -94,7 +94,7 @@ export default class GameController {
             this.scene.scene.start('WonScene');
         }
 
-        this.bullets.forEach((bullet, index) => {
+        this.bullets.forEach((bullet) => {
             if(bullet.y < bullet.height) {
                 bullet.destroy();
             }
@@ -173,6 +173,7 @@ export default class GameController {
     }
 
     createBallPaddleCollision(ball) {
+        //checks the difference between the paddle and the ball to decide where the ball must go
         this.scene.physics.add.collider(this.paddle, ball, () => {
             let diff = 0;
             
