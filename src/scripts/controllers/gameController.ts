@@ -4,6 +4,9 @@ import BricksGroup from '../objects/bricksGroup'
 import PointsText from '../objects/pointsText';
 import LivesText from '../objects/livesText';
 
+import StageStrategyInterface from '../strategies/stageStrategyInterface';
+import StateStrategyInstanceLoader from '../strategies/stageStrategyInstanceLoader';
+
 const stagesConfig = require("../../config/stages.json");
 
 const config = require('../../config/config.json');
@@ -18,6 +21,8 @@ export default class GameController {
 
     points:number;
     lives:number;
+
+    stageStrategy: StageStrategyInterface;
 
     constructor(
         scene:Phaser.Scene,
@@ -37,7 +42,12 @@ export default class GameController {
         this.createBallPaddleCollision(this.ball)
         this.createBallBrickCollision(this.ball)
         
-        this.brickGroup.buildFromStageConfig(stagesConfig[0]);
+        const strategyLoader = new StateStrategyInstanceLoader();
+
+        //fetching the only stage in game, but we could iterage on array to make more stages available
+        const stageConfig = stagesConfig[0];
+        this.stageStrategy = strategyLoader.getInstance(stageConfig.strategyType);
+        this.brickGroup.buildFromStrategyData(this.stageStrategy.generateStageData(stageConfig.strategyConfig));
 
         this.points = 0;
         this.lives = config.game.lives;
