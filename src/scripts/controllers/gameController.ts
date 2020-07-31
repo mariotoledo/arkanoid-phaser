@@ -151,6 +151,22 @@ export default class GameController {
                             context.shootingEnabled = false;
                         }
                     });
+                    break;
+                case PowerUpType.LargePaddle:
+                    context.paddle.enlarge();
+                    context.scene.time.addEvent({
+                        delay: config.powerups.enlargePaddleTimeMs,
+                        callback: () => {
+                            context.paddle.shrink();
+                        }
+                    });
+
+                    context.scene.time.addEvent({
+                        delay: config.powerups.enlargePaddleTimeMs - config.paddle.blinkPaddleTimeMs,
+                        callback: () => {
+                            context.paddle.blink();
+                        }
+                    });
             }
             powerUp.destroy();
         });

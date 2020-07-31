@@ -70,7 +70,11 @@
         "anchor": 0.5,
         "offset": {
             "y": -100
-        }
+        },
+        "largeScale": 1.5,
+        "normalScale": 1,
+        "blinkPaddleTimeMs": 3000,
+        "blinkPaddleIntervalMs": 200
     },
     "bricks": {
         "relativeWidth": 0.7,
@@ -78,7 +82,7 @@
         "offsetY": 100
     },
     "powerups": {
-        "dropChance": 1,
+        "dropChance": 0.3,
         "width": 32,
         "height": 32,
         "velocity": 150,
@@ -87,7 +91,8 @@
             "1": "0x00FF00",
             "2": "0x0000FF"
         },
-        "shootingDisableTimeMs": 3000
+        "shootingDisableTimeMs": 3000,
+        "enlargePaddleTimeMs": 10000
     },
     "bullets": {
         "velocity": -300
